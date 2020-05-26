@@ -3,6 +3,7 @@ import { Listener, OrderCreatedEvent, Subjects } from '@sptickets/common';
 
 import { queueGroupName } from './queueGroupName';
 import { Ticket } from '../../models/ticket';
+import { TicketUpdatedPublisher } from '../publishers/ticket-updated-publisher';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -23,6 +24,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
     // save the ticket
     await ticket.save();
+    new TicketUpdatedPublisher(this.client);
 
     // ack the message
     msg.ack();
