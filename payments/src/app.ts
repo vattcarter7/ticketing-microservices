@@ -3,6 +3,7 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError, currentUser } from '@sptickets/common';
+import { createChargeRouter } from './routes/new';
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(
 );
 
 app.use(currentUser);
+
+app.use(createChargeRouter);
 
 // all = get | post | put | delete
 app.all('*', async (req, res) => {
